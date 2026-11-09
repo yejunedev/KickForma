@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>추천 결과 | KickForma</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-ball">⚽</span><span>Kick<span class="brand-green">Forma</span></span></a>
+    <nav class="desktop-nav"><a href="index.html">홈</a><a href="select.html">포메이션 추천</a><a class="active" href="result.html">추천 결과</a></nav>
+    <button class="menu-button" id="menuButton" aria-label="메뉴 열기">☰</button>
+  </header>
+
+  <main class="result-page">
+    <section class="result-heading">
+      <div class="trophy">🏆</div>
+      <div><p class="section-kicker">YOUR RECOMMENDATION</p><h1>당신의 팀에 가장 적합한 포메이션은<br class="desktop-only" /><strong id="resultName">4-3-3</strong> 입니다!</h1></div>
+      <span class="vote-pill" id="votePill">추천 결과</span>
+    </section>
+
+    <section class="result-main-grid">
+      <div class="pitch-column">
+        <div class="pitch" id="resultPitch" aria-label="4-3-3 포메이션 배치도">
+          <div class="pitch-line halfway"></div><div class="pitch-line center-circle"></div>
+          <div class="penalty-box penalty-top"></div><div class="goal-box goal-top"></div>
+          <div class="penalty-box penalty-bottom"></div><div class="goal-box goal-bottom"></div>
+          <span class="player p1"><b>LW</b><small>11</small></span><span class="player p2"><b>ST</b><small>9</small></span><span class="player p3"><b>RW</b><small>7</small></span>
+          <span class="player p4"><b>CM</b><small>8</small></span><span class="player p5"><b>CM</b><small>10</small></span><span class="player p6"><b>CM</b><small>6</small></span>
+          <span class="player p7"><b>LB</b><small>3</small></span><span class="player p8"><b>CB</b><small>4</small></span><span class="player p9"><b>CB</b><small>5</small></span><span class="player p10"><b>RB</b><small>2</small></span>
+          <span class="player p11"><b>GK</b><small>1</small></span>
+        </div>
+        <h2 class="formation-caption" id="formationCaption">4 - 3 - 3</h2>
+        <p class="formation-tags"><span>공격적</span><span>균형</span><span>측면 활용</span></p>
+      </div>
+
+      <article class="recommend-card">
+        <div class="card-heading"><div><p class="section-kicker">FORMATION GUIDE</p><h2>포메이션 요약</h2></div><span class="mini-ball">⚽</span></div>
+        <p class="summary-text" id="summaryText">측면 공격수 활용과 빠른 공격 전개가 강점인 포메이션입니다. 중앙 미드필더의 균형 잡힌 운영이 특징인 공격적인 진형입니다.</p>
+        <div class="card-divider"></div>
+        <h3>코칭 팁</h3>
+        <ul class="tips-list" id="tipsList">
+          <li>윙어의 드리블과 크로스 타이밍을 활용하세요.</li>
+          <li>중앙 미드필더의 수비 가담을 잊지 마세요.</li>
+          <li>공격 시 풀백의 오버래핑을 적극적으로 활용하세요.</li>
+          <li>전방 압박 후 수비 라인의 뒷공간을 주의하세요.</li>
+        </ul>
+        <div class="result-actions"><a class="button button-ghost" href="select.html">↻ 다시하기</a><button class="button button-primary" id="detailsButton">상세 정보 보기 <span>→</span></button></div>
+      </article>
+    </section>
+
+    <section class="other-formations">
+      <div class="section-row"><div><p class="section-kicker">MORE OPTIONS</p><h2>다른 포메이션도 확인해 보세요</h2></div><a href="select.html" class="text-link">다시 분석하기 →</a></div>
+      <div class="formation-cards">
+        <button class="formation-card" data-formation="4-2-3-1"><span class="mini-pitch"><i></i><i></i><i></i><i></i><i></i><i></i></span><span><strong>4-2-3-1</strong><small>중앙 연계와 안정적인 수비</small></span><span class="card-arrow">↗</span></button>
+        <button class="formation-card" data-formation="4-4-2"><span class="mini-pitch"><i></i><i></i><i></i><i></i><i></i><i></i></span><span><strong>4-4-2</strong><small>간결한 공격과 조직적인 압박</small></span><span class="card-arrow">↗</span></button>
+        <button class="formation-card" data-formation="5-3-2"><span class="mini-pitch"><i></i><i></i><i></i><i></i><i></i><i></i></span><span><strong>5-3-2</strong><small>수비 안정과 빠른 역습</small></span><span class="card-arrow">↗</span></button>
+      </div>
+    </section>
+    <div class="result-bottom-actions"><a class="button button-ghost" href="index.html">홈으로 돌아가기</a><a class="button button-primary" href="select.html">다시 추천받기 →</a></div>
+  </main>
+
+  <div class="modal-backdrop" id="detailsModal" hidden>
+    <section class="details-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" id="closeModal" aria-label="닫기">×</button>
+      <p class="section-kicker">FORMATION DETAILS</p><h2 id="modalTitle">4-3-3 상세 정보</h2>
+      <p id="modalText">측면 공격수와 중앙 미드필더를 활용해 공격의 폭과 속도를 살리는 포메이션입니다.</p>
+      <h3>이런 팀에 잘 맞아요</h3><ul><li>측면에서 일대일 돌파가 가능한 선수가 있는 팀</li><li>중원에서 활동량과 패스 연결이 좋은 팀</li><li>전방에서부터 적극적으로 압박하고 싶은 팀</li></ul>
+      <button class="button button-primary modal-done" id="modalDone">확인</button>
+    </section>
+  </div>
+  <footer><a class="brand footer-brand" href="index.html"><span class="brand-ball">⚽</span><span>Kick<span class="brand-green">Forma</span></span></a><small>나에게 맞는 전술, 나에게 맞는 포메이션.</small></footer>
+  <script src="script.js"></script>
+</body>
+</html>
