@@ -1,4 +1,4 @@
-
+//외부 라이브러리
 const express = require("express");
 const mysql = require("mysql2/promise");
 const cors = require("cors");
@@ -9,7 +9,7 @@ const PORT = 3000;
 // 기본 설정
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
+app.use(express.static(__dirname)); 
 
 // MySQL 연결 설정
 const pool = mysql.createPool({
@@ -87,7 +87,7 @@ app.get("/api/choices", async (req, res) => {
     }
 });
 
-// 포메이션 추천 API
+
 // 포메이션 추천 API
 app.post("/api/recommend", async (req, res) => {
     try {
@@ -157,11 +157,11 @@ app.get("/api/questions", async (req, res) => {
                 c.option_order
             FROM questions q
             JOIN choices c
-                ON q.id = c.question_id
+                ON q.id = c.question_id 
             ORDER BY q.question_order, c.option_order
         `);
 
-        res.json(rows);
+        res.json(rows);//배열 프론트에게 전달
 
     } catch (error) {
         console.error("질문 조회 오류:", error);
