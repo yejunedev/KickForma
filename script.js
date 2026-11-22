@@ -1,18 +1,14 @@
-// ==========================================
-// 1. 공통: 모바일 메뉴 
-// ==========================================
 const menuButton = document.querySelector('#menuButton');
 const nav = document.querySelector('.desktop-nav');
+
 if (menuButton && nav) {
   menuButton.addEventListener('click', () => nav.classList.toggle('open'));
 }
 
-// ==========================================
-// 2. 선택 페이지 로직 (DB 질문 연동)
-// ==========================================
-let questions = []; 
-let answers = []; 
+let questions = [];
+let answers = [];
 let currentQuestion = 0;
+
 const optionsGrid = document.querySelector('#optionsGrid');
 
 async function loadQuestionsFromDB() {
@@ -28,14 +24,14 @@ async function loadQuestionsFromDB() {
         map.set(r.question_id, {
           title: r.title,
           desc: r.description,
-          options: [],     
-          choiceIds: []    
+          options: [],
+          choiceIds: []
         });
       }
       
       const q = map.get(r.question_id);
       q.options.push([r.option_icon || '⚽', r.question_text, r.option_description || '']);
-      q.choiceIds.push(r.choice_id); 
+      q.choiceIds.push(r.choice_id);
     });
     
     questions = Array.from(map.values());
@@ -54,6 +50,7 @@ async function loadQuestionsFromDB() {
 
 function renderQuestion() {
   if (!optionsGrid || questions.length === 0) return;
+  
   const q = questions[currentQuestion];
   
   document.querySelector('#questionTitle').textContent = q.title;
@@ -88,7 +85,7 @@ function renderQuestion() {
 }
 
 if (optionsGrid) {
-  loadQuestionsFromDB(); 
+  loadQuestionsFromDB();
   
   document.querySelector('#prevButton').addEventListener('click', () => {
     if (currentQuestion > 0) { currentQuestion--; renderQuestion(); }
@@ -99,6 +96,7 @@ if (optionsGrid) {
       alert('계속하려면 항목 하나를 선택해 주세요.');
       return;
     }
+    
     if (currentQuestion < questions.length - 1) {
       currentQuestion++;
       renderQuestion();
@@ -113,13 +111,10 @@ if (optionsGrid) {
   });
 }
 
-// ==========================================
-// 3. 결과 페이지 로직 (DB 연동 및 결과 처리)
-// ==========================================
 const resultName = document.querySelector('#resultName');
 
 async function loadRecommendation() {
-  if (!resultName) return; 
+  if (!resultName) return;
 
   const storedAnswers = localStorage.getItem('kickformaAnswers');
   
@@ -141,7 +136,7 @@ async function loadRecommendation() {
     if (!response.ok) throw new Error('추천 계산 실패');
 
     const result = await response.json();
-    const recommendedFormation = result.recommendations[0]; 
+    const recommendedFormation = result.recommendations[0];
 
     displayFormationData(recommendedFormation);
 
@@ -167,16 +162,13 @@ function displayFormationData(data) {
 
   document.querySelector('#modalTitle').textContent = `${data.name} 상세 정보`;
   document.querySelector('#modalText').textContent = data.summary;
-  
-  // 여기가 핵심! DB 점수를 화면에 띄워줍니다.
-  document.querySelector('#votePill').textContent = `DB 추천 점수: ${data.score}점`; 
+  document.querySelector('#votePill').textContent = `DB 추천 점수: ${data.score}점`;
 }
 
 if (resultName) {
   loadRecommendation();
 }
 
-// 모달 처리 
 const detailsButton = document.querySelector('#detailsButton');
 const modal = document.querySelector('#detailsModal');
 if (detailsButton && modal) {
