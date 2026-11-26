@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KICKFORMA - 로그인 및 회원가입</title>
+  <link rel="stylesheet" href="login.css" />
+</head>
+<body>
+  <header>
+    <a href="index.html" class="logo">⚽ KICKFORMA</a>
+    <nav class="nav-links">
+      <a href="index.html">홈</a>
+      <a href="select.html">전술 진단</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>⚽ KICKFORMA</h1>
+        <p id="auth-subtitle">로그인하고 나만의 포메이션 추천 이력을 관리하세요</p>
+      </div>
+
+      <!-- 로그인 / 회원가입 탭 -->
+      <div class="tab-group">
+        <button type="button" class="tab-btn active" id="tab-login" onclick="switchMode('login')">로그인</button>
+        <button type="button" class="tab-btn" id="tab-register" onclick="switchMode('register')">회원가입</button>
+      </div>
+
+      <form id="auth-form">
+        <div class="form-group">
+          <label for="username">아이디</label>
+          <input type="text" id="username" placeholder="아이디를 입력하세요" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">비밀번호</label>
+          <input type="password" id="password" placeholder="비밀번호를 입력하세요" required />
+        </div>
+
+        <!-- 회원가입 모드일 때만 표시되는 감독 닉네임 입력칸 -->
+        <div class="form-group hidden" id="nickname-group">
+          <label for="nickname">감독 닉네임</label>
+          <input type="text" id="nickname" placeholder="예: 예준감독" />
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">로그인하기</button>
+        <p class="status-msg" id="status-msg"></p>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    let currentMode = 'login';
+
+    function switchMode(mode) {
+      currentMode = mode;
+      const tabLogin = document.getElementById('tab-login');
+      const tabRegister = document.getElementById('tab-register');
+      const nicknameGroup = document.getElementById('nickname-group');
+      const nicknameInput = document.getElementById('nickname');
+      const submitBtn = document.getElementById('submit-btn');
+      const subtitle = document.getElementById('auth-subtitle');
+      const statusMsg = document.getElementById('status-msg');
+
+      statusMsg.textContent = '';
+
+      if (mode === 'login') {
+        tabLogin.classList.add('active');
+        tabRegister.classList.remove('active');
+        nicknameGroup.classList.add('hidden');
+        nicknameInput.required = false;
+        submitBtn.textContent = '로그인하기';
+        subtitle.textContent = '로그인하고 나만의 포메이션 추천 이력을 관리하세요';
+      } else {
+        tabRegister.classList.add('active');
+        tabLogin.classList.remove('active');
+        nicknameGroup.classList.remove('hidden');
+        nicknameInput.required = true;
+        submitBtn.textContent = '회원가입 완료';
+        subtitle.textContent = '새 감독 계정을 만들고 전술 데이터를 기록하세요';
+      }
+    }
+
+    document.getElementById('auth-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const nickname = document.getElementById('nickname').value.trim();
+      const statusMsg = document.getElementById('status-msg');
+
+      const endpoint = currentMode === 'login' ? '/api/login' : '/api/register';
+      const payload = currentMode === 'login'
+        ? { username, password }
+        : { username, password, nickname };
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          statusMsg.style.color = '#DC2626';
+          statusMsg.textContent = data.message || '요청 처리에 실패했습니다.';
+          return;
+        }
+
+        if (currentMode === 'register') {
+          alert('회원가입이 완료되었습니다! 이제 로그인해 주세요.');
+          switchMode('login');
+          document.getElementById('password').value = '';
+        } else {
+          localStorage.setItem('kickforma_user', JSON.stringify(data.user));
+          alert(`${data.user.nickname}님, 환영합니다!`);
+          window.location.href = 'index.html';
+        }
+      } catch (err) {
+        console.error(err);
+        statusMsg.style.color = '#DC2626';
+        statusMsg.textContent = '서버와 연결할 수 없습니다. server.js 실행 상태를 확인하세요.';
+      }
+    });
+  </script>
+</body>
+</html>
