@@ -4,21 +4,23 @@ const mysql = require("mysql2/promise");
 const cors = require("cors");                
 
 const app = express(); 
-const PORT = 3000;     
+const PORT = process.env.Port || 3000;     
 
 // 기본 설정 
 app.use(cors()); 
 app.use(express.json()); 
 app.use(express.static(__dirname)); 
 
-// MySQL 연결 설정 
+// MySQL 연결 설정 (로컬 & 클라우드 배포 겸용)
 const pool = mysql.createPool({
-    host: "localhost",        // DB 서버 주소
-    user: "root",             // DB 사용자 이름
-    password: "wjddpwns1234", 
-    database: "formalize_db", 
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "wjddpwns1234",
+    database: process.env.DB_NAME || "formalize_db",
+    ssl: process.env.DB_HOST ? { rejectUnauthorized: true } : undefined,
     waitForConnections: true, 
-    connectionLimit: 10       
+    connectionLimit: 10      
 });
 
 app.get("/api/test", (req, res) => {

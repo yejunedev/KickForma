@@ -1,13 +1,13 @@
 {
   "name": "kickforma",
   "version": "1.0.0",
-  "description": "축구 전술 성향 기반 포메이션 추천 UI 초안입니다.",
-  "main": "script.js",
+  "description": "축구 전술 성향 기반 포메이션 추천 웹 서비스",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "yejunedev",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
