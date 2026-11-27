@@ -9,10 +9,6 @@
 <body>
   <header>
     <a href="index.html" class="logo">⚽ KICKFORMA</a>
-    <nav class="nav-links">
-      <a href="index.html">홈</a>
-      <a href="select.html">전술 진단</a>
-    </nav>
   </header>
 
   <main>
@@ -110,13 +106,24 @@
         }
 
         if (currentMode === 'register') {
-          alert('회원가입이 완료되었습니다! 이제 로그인해 주세요.');
-          switchMode('login');
-          document.getElementById('password').value = '';
+          // 회원가입 성공 시 즉시 자동 로그인 요청 후 home.html로 이동
+          const loginRes = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+          });
+          const loginData = await loginRes.json();
+
+          if (loginRes.ok && loginData.user) {
+            localStorage.setItem('kickforma_user', JSON.stringify(loginData.user));
+          }
+
+          alert(`${nickname}님, 회원가입이 완료되었습니다!`);
+          window.location.href = 'home.html';
         } else {
           localStorage.setItem('kickforma_user', JSON.stringify(data.user));
           alert(`${data.user.nickname}님, 환영합니다!`);
-          window.location.href = 'index.html';
+          window.location.href = 'home.html';
         }
       } catch (err) {
         console.error(err);

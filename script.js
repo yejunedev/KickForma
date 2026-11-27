@@ -289,3 +289,14 @@ if (detailsButton && modal) {
   modal.addEventListener('click', event => { if (event.target === modal) modal.hidden = true; });
   document.addEventListener('keydown', event => { if (event.key === 'Escape') modal.hidden = true; });
 }
+
+// 메인 페이지 '포메이션 추천 시작하기' 버튼 클릭 시 비로그인 상태면 로그인/회원가입 페이지로 안내
+const heroCtaBtn = document.querySelector('.hero-cta');
+if (heroCtaBtn) {
+  heroCtaBtn.addEventListener('click', (e) => {
+    if (!getCurrentUser()) {
+      e.preventDefault();
+      window.location.href = 'login.html';
+    }
+  });
+}
